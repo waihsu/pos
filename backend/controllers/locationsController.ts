@@ -20,6 +20,15 @@ export const createLocation = async (req: Request, res: Response) => {
   res.status(200).json({ newLocation });
 };
 
+export const updateLocation = async (req: Request, res: Response) => {
+  const { name, address, locationId } = req.body;
+  const updated = await db.query(
+    "UPDATE locations SET name=$1, address=$2 WHERE id=$3",
+    [name, address, locationId]
+  );
+  res.send("ok");
+};
+
 export const deleteLocation = async (req: Request, res: Response) => {
   const id = req.params.id;
   console.log(id);

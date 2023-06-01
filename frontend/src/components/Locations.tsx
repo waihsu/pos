@@ -3,9 +3,12 @@ import { AppContext } from "../contexts/AppContext";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { useLocation } from "../hooks/useLocations";
 import { Location } from "../types/Types";
+import { ThemeContext } from "../contexts/ThemeContext";
+import CreateNewLocation from "./CreateNewLocationDrawer";
 
 const Locations = () => {
   const { locations, fetchData, company } = useContext(AppContext);
+  const { syntax, isSmallscreen } = useContext(ThemeContext);
   const companyId = company?.id as number;
 
   const [newLocation, setNewLocation] = useState({
@@ -16,72 +19,95 @@ const Locations = () => {
   const [updateData, setUpdateData] = useState({
     name: "",
     address: "",
-    locationId: Number,
+    locationId: "",
   });
   const accessToken = localStorage.getItem("accessToken");
-  const { createNewLocation, deletelocation } = useLocation();
-
-  const updateLocation = async (id: number) => {
-    console.log(id);
-    const resp = await fetch(`http://localhost:5000/api/locations?id=${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(updateData),
-    });
-    fetchData();
-  };
+  const { createNewLocation, deletelocation, updateLocation } = useLocation();
 
   return (
-    <Box sx={{ ml: 3, mt: 5 }}>
-      {locations.map((location, index) => {
-        return (
-          <Box
-            key={location.id}
-            sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-            <Typography variant="h5" sx={{ mr: 3 }}>
-              {index + 1}.
-            </Typography>
-            <TextField
-              defaultValue={location.name}
-              sx={{ mr: 3 }}
-              onChange={(evt) => {
-                setUpdateData({ ...updateData, name: evt.target.value });
-              }}
-            />
-            <TextField
-              defaultValue={location.address}
-              sx={{ mr: 3 }}
-              onChange={(evt) => {
-                setUpdateData({ ...updateData, address: evt.target.value });
-              }}
-            />
-            <Button
-              variant="contained"
-              onClick={() => updateLocation(location.id as number)}>
-              Update
-            </Button>
-            <Button
-              sx={{ bgcolor: "red" }}
-              onClick={() => deletelocation(location.id as number)}>
-              Delete
-            </Button>
-          </Box>
-        );
-      })}
-      <Box sx={{ ml: 5, display: "flex", alignItems: "center" }}>
+    <Box
+      sx={{
+        pt: 6,
+        display: "flex",
+        px: 2,
+      }}>
+      <Box>
+        {locations.map((location, index) => {
+          return (
+            <Box
+              key={location.id}
+              sx={{
+                maxWidth: 500,
+
+                display: "flex",
+                gap: 2,
+                mb: 2,
+                py: 2,
+              }}>
+              <Typography variant="h5">{index + 1}.</Typography>
+              <Box
+                sx={{
+                  mb: 2,
+                  gap: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                }}>
+                <TextField
+                  defaultValue={location.name}
+                  fullWidth
+                  onChange={(evt) => {
+                    setUpdateData({ ...updateData, name: evt.target.value });
+                  }}
+                />
+                <TextField
+                  defaultValue={location.address}
+                  fullWidth
+                  onChange={(evt) => {
+                    setUpdateData({ ...updateData, address: evt.target.value });
+                  }}
+                />
+                <Box>
+                  <Button
+                    variant="contained"
+                    onClick={() =>
+                      updateLocation({
+                        ...updateData,
+                        locationId: location.id as number,
+                      })
+                    }>
+                    Update
+                  </Button>
+                  <Button
+                    sx={{ bgcolor: "red" }}
+                    onClick={() => deletelocation(location.id as number)}>
+                    Delete
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          );
+        })}
+      </Box>
+      <Box
+        sx={{
+          maxWidth: 600,
+          display: isSmallscreen ? "none" : "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+          mx: "auto",
+        }}>
+        <Typography>Create New Location</Typography>
         <TextField
           value={newLocation.name}
-          sx={{ mr: 3 }}
+          fullWidth
           onChange={(evt) =>
             setNewLocation({ ...newLocation, name: evt.target.value })
           }
         />
         <TextField
           value={newLocation.address}
-          sx={{ mr: 3 }}
+          fullWidth
           onChange={(evt) =>
             setNewLocation({ ...newLocation, address: evt.target.value })
           }
@@ -94,6 +120,17 @@ const Locations = () => {
           }}>
           Create
         </Button>
+      </Box>
+      <Box
+        sx={{
+          display: isSmallscreen ? "flex" : "none",
+          position: "fixed",
+          right: 0,
+          top: "52%",
+        }}>
+        <CreateNewLocation
+          createNewLocation={() => createNewLocation(newLocation)}
+        />
       </Box>
     </Box>
   );
