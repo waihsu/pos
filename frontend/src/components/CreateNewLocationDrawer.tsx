@@ -43,19 +43,17 @@ function useMenuAnimation(isOpen: boolean) {
 
 export default function CreateNewLocation({
   createNewLocation,
+  newLocation,
+  setNewLocation,
 }: {
   createNewLocation: (location: Location) => void;
+  newLocation: Location;
+  setNewLocation: (value: any) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
-  const { company } = useContext(AppContext);
+
   const { sideBarBgColor, syntax, bg } = useContext(ThemeContext);
-  const companyId = company?.id as number;
-  const [newLocation, setNewLocation] = useState({
-    name: "",
-    address: "",
-    companyId: companyId,
-  });
 
   return (
     <Box ref={scope}>

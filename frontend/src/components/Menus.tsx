@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import MenuCard from "./MenuCard";
 
 interface Menu {
   id?: number;
@@ -14,8 +15,24 @@ const Menus = () => {
   const { fetchData, menus } = useContext(AppContext);
 
   return (
-    <Box>
-      {menus && menus.map((menu) => <div key={menu.id}>{menu.name}</div>)}
+    <Box sx={{ width: "100%", minHeight: "100vh" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mx: "auto" }}>
+        {menus &&
+          menus.map((menu) => (
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+              <Grid key={menu.id} xs={6}>
+                <MenuCard
+                  name={menu.name}
+                  description={menu.description as string}
+                  price={menu.price}
+                />
+              </Grid>
+            </Grid>
+          ))}
+      </Box>
     </Box>
   );
 };

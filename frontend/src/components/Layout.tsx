@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, useRef } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import Drawer from "./Drawer";
 
@@ -11,6 +11,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const { bg, mainBg } = useContext(ThemeContext);
+  const ref = useRef(null);
   return (
     <Box
       sx={{
@@ -41,6 +42,7 @@ const Layout = ({ children }: Props) => {
             {children}
           </Box>
         </Box>
+
         <Box position={"fixed"} right={0} zIndex={1000}>
           <SideBar />
         </Box>

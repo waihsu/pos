@@ -79,7 +79,7 @@ export default function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
   const { changeTheme, ...data } = useContext(ThemeContext);
-  console.log(data);
+  // console.log(data);
 
   return (
     <Box ref={scope} sx={{}}>
@@ -92,7 +92,7 @@ export default function Drawer() {
               height: 69,
               borderBottomRightRadius: 10,
               borderTopRightRadius: 10,
-              background: `${data.syntax}`,
+              background: `${data.navSyntaxColor}`,
               mx: "auto",
               display: "flex",
               justifyContent: "center",
