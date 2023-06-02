@@ -6,8 +6,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
@@ -47,18 +45,12 @@ const sidebarMenuItems = [
 ];
 
 const SideBar = () => {
-  const {
-    mainBg,
-    sideBarBgColor,
-    navSyntaxColor,
-
-    hoverColor,
-    isSmallscreen,
-  } = useContext(ThemeContext);
+  const { mainBg, sideBarBgColor, navSyntaxColor, isMediumScreen } =
+    useContext(ThemeContext);
   return (
     <Box
       sx={{
-        width: isSmallscreen ? "60px" : "290px",
+        width: isMediumScreen ? "60px" : "290px",
 
         background: `${sideBarBgColor}`,
         boxShadow: "0px 10px 10px rgba(20,20,20,.5)",
@@ -78,7 +70,7 @@ const SideBar = () => {
                       {menuItem.icon}
                     </ListItemIcon>
 
-                    {isSmallscreen ? null : (
+                    {isMediumScreen ? null : (
                       <ListItemText
                         primary={menuItem.label}
                         sx={{ color: `${navSyntaxColor}` }}
@@ -104,7 +96,7 @@ const SideBar = () => {
                       {menuItem.icon}
                     </ListItemIcon>
 
-                    {isSmallscreen ? null : (
+                    {isMediumScreen ? null : (
                       <ListItemText
                         primary={menuItem.label}
                         sx={{ color: `${navSyntaxColor}` }}

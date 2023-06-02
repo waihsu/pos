@@ -2,7 +2,6 @@ import { useContext, useRef, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { useLocation } from "../hooks/useLocations";
-import { Location } from "../types/Types";
 import { ThemeContext } from "../contexts/ThemeContext";
 import CreateNewLocation from "./CreateNewLocationDrawer";
 import { motion, Variants } from "framer-motion";
@@ -28,7 +27,7 @@ const variant: Variants = {
 const Locations = () => {
   const ref = useRef(null);
   const { locations, fetchData, company } = useContext(AppContext);
-  const { syntax, isSmallscreen, isMediumScreen } = useContext(ThemeContext);
+  const { isSmallscreen, isMediumScreen } = useContext(ThemeContext);
   const companyId = company?.id as number;
 
   const [newLocation, setNewLocation] = useState({
@@ -41,7 +40,7 @@ const Locations = () => {
     address: "",
     locationId: "",
   });
-  const accessToken = localStorage.getItem("accessToken");
+
   const { createNewLocation, deletelocation, updateLocation } = useLocation();
 
   return (

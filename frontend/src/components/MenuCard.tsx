@@ -9,21 +9,23 @@ const MenuCard = ({
   name,
   description,
   price,
+  accet_url,
 }: {
   name: string;
   description: string;
   price: number;
+  accet_url: string;
 }) => {
   return (
     <Box>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ width: "100%" }}>
         <CardActionArea>
-          {/* <CardMedia
+          <CardMedia
             component="img"
             height="140"
-            image="/static/images/cards/contemplative-reptile.jpg"
+            image={accet_url}
             alt="green iguana"
-          /> */}
+          />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {name}

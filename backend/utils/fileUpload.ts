@@ -20,7 +20,7 @@ export const fileUpload = multer({
     bucket: "msquarefdc",
     acl: "public-read",
     key: function (request, file, cb) {
-      cb(null, `happy-pos/msquare/${Date.now()}_${file.originalname}`);
+      cb(null, `pos/waihsu/${Date.now()}_${file.originalname}`);
     },
   }),
 }).array("files", 1);

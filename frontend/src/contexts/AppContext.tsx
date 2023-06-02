@@ -21,6 +21,7 @@ interface AppContextType {
   company: Company | null;
   updateData: (value: any) => void;
   fetchData: () => void;
+  accessToken: string | null;
 }
 
 export const defaultContext: AppContextType = {
@@ -33,6 +34,7 @@ export const defaultContext: AppContextType = {
   company: null,
   updateData: () => {},
   fetchData: () => {},
+  accessToken: null,
 };
 
 export const AppContext = createContext(defaultContext);
@@ -40,8 +42,6 @@ export const AppContext = createContext(defaultContext);
 const AppProvider = (props: any) => {
   const [data, updateData] = useState(defaultContext);
   const accessToken = localStorage.getItem("accessToken");
-  console.log("Context");
-  console.log("accessToken: ", accessToken);
 
   useEffect(() => {
     if (accessToken) {
@@ -78,7 +78,8 @@ const AppProvider = (props: any) => {
   };
 
   return (
-    <AppContext.Provider value={{ ...data, updateData, fetchData }}>
+    <AppContext.Provider
+      value={{ ...data, updateData, fetchData, accessToken }}>
       {props.children}
     </AppContext.Provider>
   );

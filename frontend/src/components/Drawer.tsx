@@ -84,7 +84,7 @@ export default function Drawer() {
   return (
     <Box ref={scope} sx={{}}>
       <div className="button">
-        <motion.div animate={{}} transition={{}}>
+        <motion.div>
           <Box
             onClick={() => setIsOpen(!isOpen)}
             sx={{

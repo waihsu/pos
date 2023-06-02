@@ -11,7 +11,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const { bg, mainBg } = useContext(ThemeContext);
-  const ref = useRef(null);
+
   return (
     <Box
       sx={{
@@ -33,6 +33,7 @@ const Layout = ({ children }: Props) => {
         <Box sx={{ width: "77vw" }}>
           <Box
             sx={{
+              pt: 4,
               maxWidth: "80%",
               mx: "auto",
               boxShadow: "10px 10px 10px rgba(20,20,20,.5)",
