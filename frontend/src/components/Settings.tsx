@@ -34,7 +34,7 @@ const Settings = () => {
     localStorage.setItem("selectedLocationId", event.target.value);
   };
   return (
-    <Box sx={{ p: 3, width: "300px" }}>
+    <Box sx={{ p: 3 }}>
       {/* <TextField defaultValue={company?.name} /> */}
       <Box sx={{ mt: 3 }}>
         <FormControl fullWidth>

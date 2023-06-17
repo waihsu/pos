@@ -38,5 +38,28 @@ export const useLocation = () => {
     }
   };
 
-  return { createNewLocation, deletelocation };
+  const updateLocation = async ({
+    name,
+    address,
+    locationId,
+  }: {
+    name: string;
+    address: string;
+    locationId: number;
+  }) => {
+    const resp = await fetch(
+      `http://localhost:5000/api/locations/${locationId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ name, address, locationId }),
+      }
+    );
+    fetchData();
+  };
+
+  return { createNewLocation, deletelocation, updateLocation };
 };

@@ -40,6 +40,7 @@ export const AppContext = createContext(defaultContext);
 const AppProvider = (props: any) => {
   const [data, updateData] = useState(defaultContext);
   const accessToken = localStorage.getItem("accessToken");
+  console.log("Context");
   console.log("accessToken: ", accessToken);
 
   useEffect(() => {
