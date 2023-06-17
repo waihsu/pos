@@ -3,7 +3,7 @@ import { config } from "../config/config";
 import { AppContext } from "../contexts/AppContext";
 
 export const useCreateMenu = () => {
-  const { accessToken } = useContext(AppContext);
+  const accessToken = localStorage.getItem("accessToken");
 
   const uploadImage = async (selectedFiles: File[]) => {
     const formData = new FormData();

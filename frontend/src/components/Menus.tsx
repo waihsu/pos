@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import MenuCard from "./MenuCard";
 import { motion, Variants } from "framer-motion";
 import CreateNewMenu from "./CreateNewMenu";
+import { getSelectedLocationId } from "../utils/getLocalStorage";
 
 const menuCardVariants: Variants = {
   offscreen: {
@@ -24,9 +25,17 @@ const menuCardVariants: Variants = {
 };
 
 const Menus = () => {
-  const { menus } = useContext(AppContext);
+  const { menus, menus_menu_categories_locations } = useContext(AppContext);
   const ref = useRef(null);
+  const locationId = getSelectedLocationId();
 
+  const menusResult = menus_menu_categories_locations
+    .filter((item) => item.locations_id === Number(locationId))
+    .map((item) => item.menus_id);
+  console.log(menusResult);
+  const validMenus = menus.filter((item) =>
+    menusResult.includes(item.id as number)
+  );
   return (
     <Box sx={{ minHeight: "100vh" }}>
       <Box
@@ -38,8 +47,8 @@ const Menus = () => {
           px: 2,
         }}>
         <CreateNewMenu />
-        {menus &&
-          menus.map((menu) => (
+        {validMenus &&
+          validMenus.map((menu) => (
             <motion.div
               key={menu.id}
               initial="offscreen"

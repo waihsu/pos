@@ -14,7 +14,7 @@ import { AppContext } from "../contexts/AppContext";
 const Settings = () => {
   const { locations, fetchData } = useContext(AppContext);
   const [selectedLocationId, setSelectedLocationId] = useState<string>("");
-  console.log("setting", locations);
+
   useEffect(() => {
     if (locations.length) {
       const locationIdFromLocalStorage =
