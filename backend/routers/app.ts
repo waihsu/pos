@@ -1,13 +1,18 @@
 import express, { Request, Response } from "express";
-import { db } from "../db/db";
 
-export const getAllData = async (req: Request, res: Response) => {
+import { db } from "../db/db";
+import { checkAuth } from "../utils/auth";
+
+const app = express.Router();
+
+app.get("/", checkAuth, async (req: Request, res: Response) => {
   const userResult = await db.query(`select * from users where email = $1`, [
-    // @ts-ignore
+    //@ts-ignore
     req.email,
   ]);
   const userRows = userResult.rows;
-  if (!userRows.length) return res.sendStatus(401);
+  if (!userRows.length)
+    return res.status(401).json({ messg: "user not exist" });
   const user = userResult.rows[0];
   const companyId = user.companies_id;
   const locations = await db.query(
@@ -15,26 +20,27 @@ export const getAllData = async (req: Request, res: Response) => {
     [companyId]
   );
   const locationIds = locations.rows.map((row) => row.id);
-  const menuLocations = await db.query(
-    "select * from menus_locations where locations_id = ANY($1::int[])",
+
+  const menus_menu_categories_locations = await db.query(
+    "select * from menus_menu_categories_locations where locations_id = ANY($1::int[])",
     [locationIds]
   );
-  const menuIds = menuLocations.rows.map((row) => row.menus_id);
+
+  const menuIds = menus_menu_categories_locations.rows.map(
+    (row) => row.menus_id
+  );
+  const menus_categoriesIds = menus_menu_categories_locations.rows.map(
+    (row) => row.menu_categories_id
+  );
+
   const menus = await db.query(
-    `select * from menus where id = ANY($1::int[])`,
+    "select * from menus where id = ANY($1::int[])",
     [menuIds]
   );
 
-  const menuMenuCategoriesResult = await db.query(
-    "select * from menus_menu_categories where menus_id = ANY($1::int[])",
-    [menuIds]
-  );
-  const menuCategoryIds = menuMenuCategoriesResult.rows.map(
-    (row) => row.menu_categories_id
-  );
   const menuCategoriesResult = await db.query(
-    "select * from menus_categories where  id = ANY($1::int[])",
-    [menuCategoryIds]
+    "select * from menus_categories where id = ANY($1::int[])",
+    [menus_categoriesIds]
   );
 
   const menusAddonCategoriesResult = await db.query(
@@ -57,14 +63,22 @@ export const getAllData = async (req: Request, res: Response) => {
     "select * from companies where id = $1",
     [companyId]
   );
+  const tableResult = await db.query(
+    "select * from tables where locations_id = ANY($1::int[])",
+    [locationIds]
+  );
   const company = companyResult.rows[0];
   res.send({
     menus: menus.rows,
+    menus_addon_categories: menusAddonCategoriesResult.rows,
     menuCategories: menuCategoriesResult.rows,
     addons: addons.rows,
     addonCategories: addonCategories.rows,
     locations: locations.rows,
-    menuLocations: menuLocations.rows,
+    menus_menu_categories_locations: menus_menu_categories_locations.rows,
     company,
+    tables: tableResult.rows,
   });
-};
+});
+
+export default app;

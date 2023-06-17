@@ -2,13 +2,16 @@ import { createContext, useEffect, useState } from "react";
 import {
   Menu,
   MenuCategory,
+  menusAddonCategories,
   Addon,
   AddonCategory,
-  MenuLocation,
+  menus_menu_categories_locations,
   Company,
   Location,
+  Tables,
 } from "../types/Types";
 import { config } from "../config/config";
+import { getAccessToken } from "../utils/getLocalStorage";
 // import { config } from "../config/config";
 
 interface AppContextType {
@@ -17,8 +20,10 @@ interface AppContextType {
   addons: Addon[];
   addonCategories: AddonCategory[];
   locations: Location[];
-  menuLocations: MenuLocation[];
+  menus_menu_categories_locations: menus_menu_categories_locations[];
   company: Company | null;
+  tables: Tables[];
+  menus_addon_categories: menusAddonCategories[];
   updateData: (value: any) => void;
   fetchData: () => void;
 }
@@ -26,11 +31,13 @@ interface AppContextType {
 export const defaultContext: AppContextType = {
   menus: [],
   menuCategories: [],
+  menus_addon_categories: [],
   addons: [],
   addonCategories: [],
   locations: [],
-  menuLocations: [],
+  menus_menu_categories_locations: [],
   company: null,
+  tables: [],
   updateData: () => {},
   fetchData: () => {},
 };
@@ -39,9 +46,7 @@ export const AppContext = createContext(defaultContext);
 
 const AppProvider = (props: any) => {
   const [data, updateData] = useState(defaultContext);
-  const accessToken = localStorage.getItem("accessToken");
-  console.log("Context");
-  console.log("accessToken: ", accessToken);
+  const accessToken = getAccessToken();
 
   useEffect(() => {
     if (accessToken) {
@@ -59,21 +64,25 @@ const AppProvider = (props: any) => {
     const {
       menus,
       menuCategories,
+      menus_addon_categories,
       addons,
       addonCategories,
       locations,
-      menuLocations,
+      menus_menu_categories_locations,
       company,
+      tables,
     } = responseJson;
     updateData({
       ...data,
       menus: menus,
       menuCategories,
+      menus_addon_categories,
       addons,
       addonCategories,
       locations,
-      menuLocations,
+      menus_menu_categories_locations,
       company,
+      tables,
     });
   };
 

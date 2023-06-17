@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 
 import Login from "./components/Login";
@@ -14,25 +14,49 @@ import AddonCategories from "./components/AddonCategories";
 import Layout from "./components/Layout";
 import PrivateRoute from "./routes/Test";
 import Locations from "./components/Locations";
+import SearchBar from "./components/SearchBar";
+import Navbar from "./components/Navbar";
+import Logout from "./components/Logout";
+import { useContext } from "react";
+import { ThemeContext } from "./contexts/ThemeContext";
+import Tables from "./components/Tables";
+import EditMenuCateogry from "./components/EditMenuCategory";
+
+const options = [
+  { id: 1, name: "la-phet-tote" },
+  { id: 2, name: "shan-khout-swell" },
+];
 
 function App() {
-  console.log("App");
+  const accessToken = localStorage.getItem("accessToken");
+
   return (
     <BrowserRouter>
       <Layout>
+        <SearchBar options={options} defaultValue={[options[0]]} />
+
         <Routes>
           <Route element={<PrivateRoute />}>
-            <Route path="/" Component={Home} />
+            <Route path="/" element={<Home />} />
             <Route path="/orders" element={<Order />} />
             <Route path="/menus" element={<Menus />} />
             <Route path="/menu-categories" element={<MenuCategories />} />
+            <Route path="/menu-categories/:id" element={<EditMenuCateogry />} />
             <Route path="/addons" element={<Addons />} />
             <Route path="/addon-categories" element={<AddonCategories />} />
-            <Route path="/locations" Component={Locations} />
+            <Route path="/locations" element={<Locations />} />
+            <Route path="/tables" element={<Tables />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={!accessToken ? <Login /> : <Navigate to={"/"} />}
+          />
+
+          <Route
+            path="/register"
+            element={!accessToken ? <Register /> : <Navigate to={"/"} />}
+          />
         </Routes>
       </Layout>
     </BrowserRouter>

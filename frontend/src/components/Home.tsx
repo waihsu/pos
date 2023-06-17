@@ -1,11 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { ThemeContext } from "../contexts/ThemeContext";
 
 const Home = () => {
   const { fetchData } = useContext(AppContext);
-  const { bg } = useContext(ThemeContext);
   useEffect(() => {
     fetchData();
   }, []);

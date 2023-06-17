@@ -48,22 +48,22 @@ export const register = async (req: Request, res: Response) => {
     const menus = menusResult.rows;
     const defaultMenuId1 = menus[0].id;
     const defaultMenuId2 = menus[1].id;
-    await db.query(
-      "insert into menus_locations (menus_id, locations_id) select * from unnest ($1::int[], $2::int[])",
-      [
-        [defaultMenuId1, defaultMenuId2],
-        [locationId, locationId],
-      ]
-    );
     const menuCategoriesResult = await db.query(
       "insert into menus_categories (name) values ('defaultMenuCategory1'),('defaultMenuCategory2') returning *"
     );
     const defaultMenuCategories = menuCategoriesResult.rows;
     const defaultMenuCategoryId1 = defaultMenuCategories[0].id;
     const defaultMenuCategoryId2 = defaultMenuCategories[1].id;
-    await db.query(
-      `insert into menus_menu_categories (menus_id, menu_categories_id) values(${defaultMenuId1}, ${defaultMenuCategoryId1}), (${defaultMenuId2}, ${defaultMenuCategoryId2})`
+
+    const menus_menu_categories_locationsResult = await db.query(
+      `insert into menus_menu_categories_locations (menus_id,menu_categories_id,locations_id) select * from unnest ($1::int[], $2::int[], $3::int[]) returning *`,
+      [
+        [defaultMenuId1, defaultMenuId2],
+        [defaultMenuCategoryId1, defaultMenuCategoryId2],
+        [locationId, locationId],
+      ]
     );
+
     const defaultAddonCategoriesResult = await db.query(
       "insert into addon_categories (name, is_required) values ('Drinks', 'TRUE'), ('Sizes','TRUE') returning *"
     );
@@ -72,7 +72,7 @@ export const register = async (req: Request, res: Response) => {
     await db.query(
       `insert into menus_addon_categories (menus_id, addon_categories_id) values (${defaultMenuId1}, ${defaultAddonCategoryId1}), (${defaultMenuId2}, ${defaultAddonCategoryId2})`
     );
-    await db.query(`insert into addons (name, price, addon_categories_id) values ('Cola', 50, ${defaultAddonCategoryId1}), ('Pepsi', 50, ${defaultAddonCategoryId1}), 
+    await db.query(`insert into addons (name, price, addon_categories_id) values ('Cola', 50, ${defaultAddonCategoryId1}), ('Pepsi', 50, ${defaultAddonCategoryId1}),
       ('Large', 30, ${defaultAddonCategoryId2}), ('Normal', 0, ${defaultAddonCategoryId2})`);
     const registeredUser = newUser.rows;
     res.status(200).json({ registeredUser });

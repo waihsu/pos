@@ -15,6 +15,7 @@ interface DefaultTheme {
   hoverColor: string;
   isSmallscreen: boolean;
   isMediumScreen: boolean;
+  title: string;
   changeTheme: (value: any) => void;
 }
 
@@ -25,11 +26,12 @@ const defaultTheme: DefaultTheme = {
   sideBarBgColor:
     " linear-gradient(122deg, rgba(255,201,0,0.27306274072128855) 0%, rgba(255,139,0,0.15261456144957986) 100%)",
   navSyntaxColor: "#720e9e",
-  syntax: "#fff",
+  syntax: "#FFF4E0",
   spanSyntax: "rgb(86,86,86)",
-  hoverColor: "#841617",
+  hoverColor: "#BB371A",
   isSmallscreen: true,
   isMediumScreen: true,
+  title: "",
   changeTheme: () => {},
 };
 
@@ -47,6 +49,7 @@ const ThemeContextProvider = ({ children }: Props) => {
   const small = useTheme();
   const isSmallscreen = useMediaQuery(small.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(small.breakpoints.down("md"));
+  const title = window.location.pathname;
 
   return (
     <ThemeContext.Provider
@@ -55,6 +58,7 @@ const ThemeContextProvider = ({ children }: Props) => {
         changeTheme: setTheme,
         isSmallscreen,
         isMediumScreen,
+        title,
       }}>
       {children}
     </ThemeContext.Provider>
