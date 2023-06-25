@@ -56,8 +56,13 @@ const sidebarMenuItems = [
   { id: 8, label: "Settings", icon: <SettingsIcon />, route: "/settings" },
 ];
 
-const SideBar = () => {
-  const pathName = window.location.pathname;
+interface Props {
+  title?: string;
+}
+
+const SideBar = ({ title }: Props) => {
+  const pathName = title?.split("/")[1];
+  console.log(pathName);
   const { mainBg, hoverColor, syntax, isMediumScreen, isSmallscreen } =
     useContext(ThemeContext);
   const accessToken = localStorage.getItem("accessToken");
@@ -92,12 +97,22 @@ const SideBar = () => {
               <motion.div
                 whileHover={{ marginLeft: "35px", color: "red" }}
                 whileInView={{
-                  scale: `${pathName === menuItem.route ? 1.15 : 1}`,
-                  color: `${pathName === menuItem.route ? hoverColor : syntax}`,
+                  scale: `${
+                    pathName === menuItem.route?.split("/")[1] ? 1.15 : 1
+                  }`,
+                  color: `${
+                    pathName === menuItem.route?.split("/")[1]
+                      ? hoverColor
+                      : syntax
+                  }`,
                   marginLeft: `${
                     isMediumScreen
                       ? 0
-                      : `${pathName === menuItem.route ? "35px" : 0}`
+                      : `${
+                          pathName === menuItem.route?.split("/")[1]
+                            ? "35px"
+                            : 0
+                        }`
                   }`,
                 }}>
                 <ListItem disablePadding>
@@ -106,7 +121,9 @@ const SideBar = () => {
                       sx={{
                         ml: isMediumScreen ? 1 : 0,
                         color: `${
-                          pathName === menuItem.route ? "#5C469C" : syntax
+                          pathName === menuItem.route?.split("/")[1]
+                            ? "#5C469C"
+                            : syntax
                         }`,
                       }}>
                       {menuItem.icon}
@@ -131,8 +148,14 @@ const SideBar = () => {
               <motion.div
                 whileHover={{ marginLeft: "35px", color: "red" }}
                 whileInView={{
-                  color: `${pathName === menuItem.route ? hoverColor : syntax}`,
-                  marginLeft: `${pathName === menuItem.route ? "25px" : 0}`,
+                  color: `${
+                    pathName === menuItem.route?.split("/")[1]
+                      ? hoverColor
+                      : syntax
+                  }`,
+                  marginLeft: `${
+                    pathName === menuItem.route?.split("/")[1] ? "25px" : 0
+                  }`,
                 }}>
                 <ListItem disablePadding>
                   <ListItemButton>
@@ -140,7 +163,9 @@ const SideBar = () => {
                       sx={{
                         ml: isMediumScreen ? 1 : 0,
                         color: `${
-                          pathName === menuItem.route ? "#526D82" : syntax
+                          pathName === menuItem.route?.split("/")[1]
+                            ? "#526D82"
+                            : syntax
                         }`,
                       }}>
                       {menuItem.icon}

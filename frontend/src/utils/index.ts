@@ -65,6 +65,7 @@ export const getAddonsByLocationId = (
   addonCategories: AddonCategory[]
 ) => {
   const validAddonCategoryIds = addonCategories.map((item) => item.id);
+
   return addons.filter((item) =>
     validAddonCategoryIds.includes(item.addon_categories_id)
   );
