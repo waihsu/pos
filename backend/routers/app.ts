@@ -22,7 +22,7 @@ app.get("/", checkAuth, async (req: Request, res: Response) => {
   const locationIds = locations.rows.map((row) => row.id);
 
   const menus_menu_categories_locations = await db.query(
-    "select * from menus_menu_categories_locations where locations_id = ANY($1::int[])",
+    "select * from menus_menu_categories_locations where locations_id = ANY($1::int[]) and is_archived = false",
     [locationIds]
   );
 
@@ -44,14 +44,14 @@ app.get("/", checkAuth, async (req: Request, res: Response) => {
   );
 
   const menusAddonCategoriesResult = await db.query(
-    "select * from menus_addon_categories where menus_id = ANY($1::int[])",
+    "select * from menus_addon_categories where menus_id = ANY($1::int[]) and is_archived = false",
     [menuIds]
   );
   const addonCategoryIds = menusAddonCategoriesResult.rows.map(
     (row) => row.addon_categories_id
   );
   const addonCategories = await db.query(
-    "select * from addon_categories where id = ANY($1::int[])",
+    "select * from addon_categories where id = ANY($1::int[]) and is_archived = false",
     [addonCategoryIds]
   );
   const addons = await db.query(

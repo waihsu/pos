@@ -10,6 +10,8 @@ import imageUploadRouter from "./routers/imageUpload";
 import menuRouter from "./routers/menusRouter";
 import tablesRouter from "./routers/tablesRouter";
 import menuCategoriesRouter from "./routers/menuCategoriesRouter";
+import addonCategoriesRouter from "./routers/addonCategories";
+import addonRouter from "./routers/addon";
 
 const app = express();
 app.use(cors());
@@ -22,6 +24,8 @@ app.use("/menuCategories", menuCategoriesRouter);
 app.use("/api/locations", locationRouter);
 app.use("/api/menus", menuRouter);
 app.use("/tables", tablesRouter);
+app.use("/addoncategories", addonCategoriesRouter);
+app.use("/addons", addonRouter);
 
 app.listen(5000, () => {
   console.log("Server Started on Port 5000");

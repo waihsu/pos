@@ -48,7 +48,7 @@ const Layout = ({ children }: Props) => {
         </Box>
 
         <Box position={"fixed"} right={0} zIndex={1100}>
-          <SideBar />
+          <SideBar title={title} />
         </Box>
       </Box>
     </Box>

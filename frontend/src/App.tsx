@@ -21,6 +21,8 @@ import { useContext } from "react";
 import { ThemeContext } from "./contexts/ThemeContext";
 import Tables from "./components/Tables";
 import EditMenuCateogry from "./components/EditMenuCategory";
+import EditAddonCategories from "./components/EditAddonCategories";
+import EditAddon from "./components/EditAddon";
 
 const options = [
   { id: 1, name: "la-phet-tote" },
@@ -43,7 +45,12 @@ function App() {
             <Route path="/menu-categories" element={<MenuCategories />} />
             <Route path="/menu-categories/:id" element={<EditMenuCateogry />} />
             <Route path="/addons" element={<Addons />} />
+            <Route path="/addons/:id" element={<EditAddon />} />
             <Route path="/addon-categories" element={<AddonCategories />} />
+            <Route
+              path="/addon-categories/:id"
+              element={<EditAddonCategories />}
+            />
             <Route path="/locations" element={<Locations />} />
             <Route path="/tables" element={<Tables />} />
             <Route path="/settings" element={<Settings />} />

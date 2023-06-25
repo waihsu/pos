@@ -23,6 +23,7 @@ export const useCreateMenu = () => {
     price: number;
     asset_url: string;
     locationId: string | null;
+    menuCategoryIds: number[];
   }) => {
     const resp = await fetch(`${config.apiBaseUrl}/api/menus`, {
       method: "POST",

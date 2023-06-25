@@ -46,7 +46,7 @@ const Autocomplete = ({
           {option.name}
         </li>
       )}
-      sx={{ width: 500 }}
+      sx={{ maxWidth: 500 }}
       renderInput={(params) => (
         <TextField {...params} label={label} placeholder={placeholder} />
       )}

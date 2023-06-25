@@ -1,6 +1,6 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import MenuCard from "./MenuCard";
 import { motion, Variants } from "framer-motion";
 import CreateNewMenu from "./CreateNewMenu";
@@ -27,6 +27,7 @@ const menuCardVariants: Variants = {
 const Menus = () => {
   const { menus, menus_menu_categories_locations } = useContext(AppContext);
   const ref = useRef(null);
+  const [open, setOpen] = useState(false);
   const locationId = getSelectedLocationId();
 
   const menusResult = menus_menu_categories_locations
@@ -46,7 +47,12 @@ const Menus = () => {
           gap: 4,
           px: 2,
         }}>
-        <CreateNewMenu />
+        <Box>
+          <Button variant="outlined" onClick={() => setOpen(!open)}>
+            Create new menu
+          </Button>
+        </Box>
+        <CreateNewMenu open={open} setOpen={setOpen} />
         {validMenus &&
           validMenus.map((menu) => (
             <motion.div

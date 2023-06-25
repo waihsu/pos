@@ -6,10 +6,31 @@ import { AppContext } from "../contexts/AppContext";
 export const useMenuCategories = () => {
   const accessToken = getAccessToken();
   const { fetchData } = useContext(AppContext);
-  const updateMenuCategory = async (newMenuCategory: {
+
+  const createMenuCategory = async ({
+    name,
+    locationId,
+  }: {
+    name: string;
+    locationId: string | null;
+  }) => {
+    await fetch(`${config.apiBaseUrl}/menuCategories`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, locationId }),
+    });
+    fetchData();
+  };
+
+  const updateMenuCategory = async (updateCategory: {
     id: string | undefined;
     name: string;
     locationIds: number[];
+    menuIds: number[];
+    currentLocationId: string | null;
   }) => {
     const resp = await fetch(`${config.apiBaseUrl}/menuCategories`, {
       method: "PUT",
@@ -17,10 +38,28 @@ export const useMenuCategories = () => {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newMenuCategory),
+      body: JSON.stringify(updateCategory),
     });
     fetchData();
   };
 
-  return { updateMenuCategory };
+  const deleteMenu = async ({
+    menuId,
+    locationId,
+  }: {
+    menuId: number;
+    locationId: number;
+  }) => {
+    const resp = await fetch(`${config.apiBaseUrl}/menuCategories/removeMenu`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ menuId, locationId }),
+    });
+    fetchData();
+  };
+
+  return { updateMenuCategory, deleteMenu, createMenuCategory };
 };

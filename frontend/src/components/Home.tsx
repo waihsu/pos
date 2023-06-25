@@ -15,8 +15,8 @@ const Home = () => {
 
         textAlign: "center",
       }}>
-      <Typography variant="h3" sx={{}}>
-        Welcome to Foodie POS
+      <Typography variant="h3" sx={{ color: "yellow" }}>
+        Welcome to Myint Myat
       </Typography>
     </Box>
   );
