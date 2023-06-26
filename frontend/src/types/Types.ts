@@ -23,6 +23,7 @@ export interface Addon extends BaseType {
   price: number;
   isAvailable: boolean;
   addon_categories_id: number;
+  is_archived: boolean;
 }
 
 export interface AddonCategory extends BaseType {

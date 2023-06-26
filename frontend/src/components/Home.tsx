@@ -16,7 +16,7 @@ const Home = () => {
         textAlign: "center",
       }}>
       <Typography variant="h3" sx={{ color: "yellow" }}>
-        Welcome to Myint Myat
+        Welcome to Village
       </Typography>
     </Box>
   );

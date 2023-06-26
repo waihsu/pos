@@ -70,9 +70,9 @@ const EditAddonCategories = () => {
     name: item.name,
   }));
 
-  const defaultAddon = addons.filter(
-    (item) => item.addon_categories_id === Number(addonCategoryId)
-  );
+  const defaultAddon = addons
+    .filter((item) => item.is_archived === false)
+    .filter((item) => item.addon_categories_id === Number(addonCategoryId));
   console.log("default", defaultAddon);
   const mapdefaultAddon = defaultAddon.map((item) => ({
     id: item.id as number,
