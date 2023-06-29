@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 We suggest that you begin by typing:
 
-### 'cd frontend'
+### 'cd frontend',
 ### `npm start`
 
 Runs the app in the development mode.\
